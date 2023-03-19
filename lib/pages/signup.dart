@@ -53,6 +53,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(238, 116, 30, 1),
         title: Text('Sign Up'),
       ),
       body: Padding(
@@ -141,7 +142,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     );
                   }
                 },
-                child: Text('Sign Up'),
+                child: Text('Sign Up', style: TextStyle(fontSize: 20,),),
               ),
               SizedBox(height: 32.0),
             ],

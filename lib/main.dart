@@ -4,6 +4,7 @@ import 'package:konigle_mobile_app/models/userModel.dart';
 import 'package:konigle_mobile_app/pages/home.dart';
 import 'package:konigle_mobile_app/pages/login.dart';
 import 'package:konigle_mobile_app/pages/signup.dart';
+import 'package:konigle_mobile_app/pages/splash.dart';
 import 'package:konigle_mobile_app/providers/userProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,7 +56,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: isLogin ? HomePage() : LoginPage(),
+      home: SplashScreen(isLogin: isLogin,),
       routes: {
         "/login" : (context) => LoginPage(),
         "/home" : (context) => HomePage(),

@@ -49,7 +49,7 @@ class _HorizontalScrollableBottomNavBarState
                 padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
                 decoration: BoxDecoration(
                   color: index == _currentIndex
-                      ? Colors.blue
+                      ? Colors.blue[100]
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -57,6 +57,7 @@ class _HorizontalScrollableBottomNavBarState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     widget.items[index].icon,
+                    SizedBox(height: 10,),
                     Text(widget.items[index].label!)
                   ],
                 ),

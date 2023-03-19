@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:konigle_mobile_app/models/database.dart';
 import 'package:konigle_mobile_app/pages/signup.dart';
-import 'package:konigle_mobile_app/providers/userProvider.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/userModel.dart';
-import 'home.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -30,7 +27,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        backgroundColor: Color.fromRGBO(238, 116, 30, 1),
+        title: Text('Login', style: TextStyle(color: Colors.white),),
       ),
       body: Center(
           child: _isLoading
@@ -64,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 32,),
                 ElevatedButton(
-                  child: Text('Login'),
+                  child: Text('Login', style: TextStyle(fontSize: 20),),
                   onPressed: _login,
                 ),
                 SizedBox(
@@ -79,17 +77,24 @@ class _LoginPageState extends State<LoginPage> {
                       Text("Not a Member?",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 15
+                          fontSize: 18
                         ),
                       ),
                       TextButton(
+                        style: TextButton.styleFrom(
+                          primary: Color.fromRGBO(238, 116, 30, 1)
+                        ),
                           onPressed: () {
                             Navigator.push(context, MaterialPageRoute(
                                 builder: (builder) => SignUpPage()
                             ));
                           },
                           child: Text(
-                              "SIGN UP!"
+                              "SIGN UP!",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Color.fromRGBO(238, 116, 30, 1)
+                            ),
                           )
                       )
                     ],

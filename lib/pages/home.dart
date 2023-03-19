@@ -78,7 +78,6 @@ class _HomePageState extends State<HomePage> {
       ],
     ),
   ];
-  List<int> _completedSections = [];
 
   @override
   void initState() {
@@ -99,7 +98,7 @@ class _HomePageState extends State<HomePage> {
   List<BottomNavigationBarItem> createBottomNavItems() {
     return _chapters.map((e) =>
       BottomNavigationBarItem(
-        icon: Icon(Icons.book),
+        icon: Icon(Icons.book, color: Color.fromRGBO(238, 116, 30, 1)),
         label: e.title
     )).toList();
   }
