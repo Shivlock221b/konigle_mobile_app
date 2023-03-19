@@ -14,12 +14,15 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> user) {
+    List<dynamic> chapterProgressList = user['chapterProgress'] ?? [];
+    List<ChapterProgress> chapterProgress =
+    chapterProgressList.map((cp) => ChapterProgress.fromJson(cp)).toList();
     return User(
       id: user['id'],
       name: user['name'],
       email: user['email'],
       password: user['password'],
-      chapterProgress: user['chapterProgress']
+      chapterProgress: chapterProgress,
     );
   }
 
@@ -28,7 +31,7 @@ class User {
     'name': name,
     'email': email,
     'password': password,
-    'chapterProgress': chapterProgress
+    'chapterProgress': chapterProgress!.map((e) => e.toJson()).toList()
   };
 
   @override
@@ -40,6 +43,21 @@ class User {
 class ChapterProgress {
   int chapterId;
   List<String>? sectionProgress = [];
+
+  factory ChapterProgress.fromJson(Map<String, dynamic> json) {
+    List<dynamic> sectionProgressList = json['sectionProgress'];
+    List<String> sectionProgress =
+    sectionProgressList.map((cp) => cp.toString()).toList();
+    return ChapterProgress(
+      chapterId: json['chapterId'],
+      sectionProgress: sectionProgress,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'chapterId': chapterId,
+    'sectionProgress': sectionProgress
+  };
 
   ChapterProgress({
     required this.chapterId,

@@ -5,6 +5,7 @@ import 'package:konigle_mobile_app/providers/userProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/userModel.dart';
 import 'home.dart';
 
 class LoginPage extends StatefulWidget {
@@ -105,13 +106,11 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _isLoading = true;
     });
-    dynamic response = db.getUser(_usernameController.text, _passwordController.text);
+    User response = db.getUser(_usernameController.text, _passwordController.text);
     if (response != null) {
-      UserProvider provider = Provider.of<UserProvider>(context, listen: false);
-      print(response);
-      provider.setCurrentUser(response);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool("isLogin", true);
+      prefs.setInt("user", response.id);
       Navigator.popAndPushNamed(context, "/home");
     } else {
       showDialog(

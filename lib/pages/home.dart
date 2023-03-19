@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   double _progressValue = 0.5;
+  bool loading = true;
   List<Chapter> _chapters = [
     Chapter(
       title: 'Chapter 1',
@@ -79,6 +80,22 @@ class _HomePageState extends State<HomePage> {
   ];
   List<int> _completedSections = [];
 
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then((value) {
+      UserProvider provider = Provider.of<UserProvider>(context, listen: false);
+      User user = Database.getUserByIndex(value.getInt("index")!);
+      provider.setCurrentUser(user);
+      if (mounted) {
+        setState(() {
+          _currentIndex = value.getInt("chapter") ?? 0;
+          loading = false;
+        });
+      }
+    });
+  }
+
   List<BottomNavigationBarItem> createBottomNavItems() {
     return _chapters.map((e) =>
       BottomNavigationBarItem(
@@ -91,8 +108,10 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _currentIndex = index;
     });
+    SharedPreferences.getInstance().then((value) {
+      value.setInt("chapter", index);
+    });
   }
-
   void calcProgress(UserProvider provider) {
     User? user = provider.user;
     if (user == null) {
@@ -108,23 +127,40 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  bool isCompleted(UserProvider provider, Section section) {
+    print(provider.user);
+    for (ChapterProgress elem in provider.user!.chapterProgress!) {
+      if (elem.chapterId == _currentIndex) {
+        if (elem.sectionProgress!.contains(section.title)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
 
     UserProvider provider = Provider.of<UserProvider>(context);
     calcProgress(provider);
 
-    return Scaffold(
+    return loading ? Scaffold(body: Center(child: CircularProgressIndicator(),),) : Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(_chapters[_currentIndex].title!, style: TextStyle(color: Colors.black),),
+        actions: [IconButton(icon: Icon(Icons.logout, color: Colors.black,), onPressed: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.remove("isLogin");
+          Navigator.popAndPushNamed(context, "/login");
+        },)],
+        title: Text("Konigle", style: TextStyle(color: Colors.black),),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(50.0),
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
-                Text('Progress: $_progressValue'),
+                Text('Progress: ${_progressValue * 100}%'),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -134,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: LinearProgressIndicator(
-                            value: 0.7,
+                            value: _progressValue,
                             backgroundColor: Colors.grey[300],
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
                           ),
@@ -182,7 +218,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     SizedBox(height: 10.0),
-                    _completedSections.contains(section.key)
+                    isCompleted(provider, section.value)
                         ? Text(
                       'Completed',
                       style: TextStyle(
@@ -193,20 +229,8 @@ class _HomePageState extends State<HomePage> {
                         : RaisedButton(
                       child: Text('Mark as completed'),
                       onPressed: () {
-                        setState(() {
-                          _completedSections.add(section.key);
-                        });
+                        provider.markSectionAsComplete(_currentIndex, section.value.title!);
                       },
-                    ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
-                        prefs.remove("isLogin");
-                        Database db = Database();
-                        db.resetDb();
-                        db.printDb();
-                      },
-                      child: Text('Clear prefs'),
                     ),
                     SizedBox(height: 10.0),
                   ],

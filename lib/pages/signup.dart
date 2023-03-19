@@ -41,7 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Future<Map> _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      user = User(id: db.getLength(), name: _usernameController.text, email: _emailController.text, password: _passwordController.text);
+      user = User(id: db.getLength(), name: _usernameController.text, email: _emailController.text, password: _passwordController.text, chapterProgress: []);
       Map response = await db.setUser(user!);
       return response;
     } else {
@@ -125,10 +125,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 onPressed: () async {
                   Map result = await _submitForm();
                   if (result['status'] == 200) {
-                    UserProvider provider = Provider.of<UserProvider>(context, listen: false);
-                    provider.setCurrentUser(user!);
                     SharedPreferences prefs = await SharedPreferences.getInstance();
                     prefs.setBool("isLogin", true);
+                    prefs.setInt("index", user!.id);
                     Navigator.pop(context);
                     Navigator.popAndPushNamed(context, "/home");
                   } else {

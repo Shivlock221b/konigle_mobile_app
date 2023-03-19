@@ -49,6 +49,17 @@ class Database {
     return null;
   }
 
+  static dynamic getUserByIndex(int index) {
+    return _db.firstWhere((element) => element.id == index);
+  }
+
+  void updateUser(User user, int index) async {
+    _db.insert(index, user);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String users = jsonEncode(_db);
+    prefs.setString('users', users);
+  }
+
   int getLength() {
     return _db.length;
   }
