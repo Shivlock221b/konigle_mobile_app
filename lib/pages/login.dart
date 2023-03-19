@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: _togglePasswordVisibility,
                     ),
                   ),
-                  obscureText: true,
+                  obscureText: !_showPassword,
                 ),
                 SizedBox(height: 32,),
                 ElevatedButton(
