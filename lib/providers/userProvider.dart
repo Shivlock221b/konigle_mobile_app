@@ -5,6 +5,10 @@ import 'package:provider/provider.dart';
 
 import '../models/database.dart';
 
+/**
+ * ChangeNotifier Provider class to maintain state of the current User
+ */
+
 class UserProvider with ChangeNotifier {
   User? user;
   Database db = Database();

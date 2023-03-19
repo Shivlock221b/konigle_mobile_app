@@ -1,3 +1,6 @@
+/**
+ * Model Class to Implement User logic
+ */
 class User {
   int id;
   String name;

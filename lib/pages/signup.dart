@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:konigle_mobile_app/main.dart';
 import 'package:konigle_mobile_app/models/database.dart';
 import 'package:konigle_mobile_app/models/userModel.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../providers/userProvider.dart';
-import 'home.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
 
+/**
+ * Sign up page for new users. Accepts Username, email and password
+ * Username must be unique
+ * email must be unique and needed for future implementation of forgot password and reset password
+ * Password must be at least 8 characters in length
+ */
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();

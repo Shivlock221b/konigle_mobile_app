@@ -2,9 +2,16 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:konigle_mobile_app/models/userModel.dart';
 
+/**
+ * Local Database to hold List of users of the App.
+ * Provides factory methods to initialise database from SharedPreferences
+ * Provides factory method to get logged in user
+ * Provides all CRUD methods to maintain database
+ */
 class Database {
   static List<User> _db = [];
 
+  // Database initialise method
   static Future<void> init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? users = prefs.getString('users');
@@ -18,6 +25,12 @@ class Database {
     }
   }
 
+  // Static method to get the logged in user
+  static dynamic getUserByIndex(int index) {
+    return _db.firstWhere((element) => element.id == index);
+  }
+
+  // setter method for database
   Future<Map> setUser(User user) async {
     Map response = {
       "status": 200,
@@ -40,6 +53,7 @@ class Database {
     return response;
   }
 
+  // getter method for database
   dynamic getUser(String userName, String password) {
     for (User user in _db) {
       if (user.name == userName && user.password == password) {
@@ -49,10 +63,7 @@ class Database {
     return null;
   }
 
-  static dynamic getUserByIndex(int index) {
-    return _db.firstWhere((element) => element.id == index);
-  }
-
+  // Update method for database
   void updateUser(User user, int index) async {
     _db.insert(index, user);
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -82,12 +93,14 @@ class Database {
     return false;
   }
 
+  // testing only
   void printDb() {
     for (User user in _db) {
       print(user);
     }
   }
 
+  // testing only
   void resetDb() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();

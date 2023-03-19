@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+/**
+ * A customised class to create horizontally scrollable Bottom Nav
+ * using the BottomNavItems.
+ * Used to for dynamic chapter lists
+ */
+
 class HorizontalScrollableBottomNavBar extends StatefulWidget {
   final List<BottomNavigationBarItem> items;
   final Function(int index) onItemSelected;

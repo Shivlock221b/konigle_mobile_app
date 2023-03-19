@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:konigle_mobile_app/pages/home.dart';
 import 'package:konigle_mobile_app/pages/login.dart';
 
+/**
+ * Front Page of the App
+ * Uses the Icon of Konigle App
+ * Copyright owned by konigle Online Ecommerce Facilitator Company
+ */
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key, required this.isLogin}) : super(key: key);
   final bool isLogin;
@@ -36,8 +41,6 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void navigationPage() {
-    // Navigator.of(context)
-    //     .pushReplacement(MaterialPageRoute(builder: (_) => widget.isLogin ? HomeScreen() : Body()));
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (_) => widget.isLogin ? HomePage() : LoginPage()));
   }
@@ -45,7 +48,6 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
 
     return Container(
-
       child: Container(
         decoration: BoxDecoration(color: Colors.white),
         child: SafeArea(

@@ -5,6 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/userModel.dart';
 
+/**
+ * Login page for existing users. Accepts username and password.
+ */
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -82,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Color.fromRGBO(238, 116, 30, 1)
+                          primary: Color.fromRGBO(238, 116, 30, 1)  // Custom Colors to match Konigle Icon
                         ),
                           onPressed: () {
                             Navigator.push(context, MaterialPageRoute(
@@ -107,6 +110,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  /**
+   * Login Logic implemented using SharedPreferences to store logged in user.
+   */
   void _login() async {
     setState(() {
       _isLoading = true;

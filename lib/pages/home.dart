@@ -8,6 +8,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../providers/userProvider.dart';
 
+/**
+ * Home Page: The User FYP in the App.
+ * Contains the chapter list which could be made dynamic.
+ * The chapter class is a helper class to maintain the chapter within each chapter.
+ */
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -111,6 +116,8 @@ class _HomePageState extends State<HomePage> {
       value.setInt("chapter", index);
     });
   }
+
+  // Calculate complete progress of the user across chapters.
   void calcProgress(UserProvider provider) {
     User? user = provider.user;
     if (user == null) {
@@ -126,6 +133,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  // Mark each section of the current chapter as completed for the user.
   bool isCompleted(UserProvider provider, Section section) {
     print(provider.user);
     for (ChapterProgress elem in provider.user!.chapterProgress!) {
