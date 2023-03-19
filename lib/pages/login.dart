@@ -105,6 +105,8 @@ class _LoginPageState extends State<LoginPage> {
     });
     dynamic response = db.getUser(_usernameController.text, _passwordController.text);
     if (response != null) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool("isLogin", true);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),

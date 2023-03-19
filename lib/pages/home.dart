@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:konigle_mobile_app/utility/horizontally_scrollable_bottom_nav.dart';
+import 'package:photo_view/photo_view.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -7,6 +9,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
+  double _progressValue = 0.5;
   List<Chapter> _chapters = [
     Chapter(
       title: 'Chapter 1',
@@ -14,12 +17,12 @@ class _HomePageState extends State<HomePage> {
         Section(
           title: 'Section 1',
           text: 'This is section 1 of chapter 1.',
-          image: 'assets/images/chapter1_section1.jpg',
+          image: 'assets/images/section 1.jpg',
         ),
         Section(
           title: 'Section 2',
           text: 'This is section 2 of chapter 1.',
-          image: 'assets/images/chapter1_section2.jpg',
+          image: 'assets/images/section 2.jpg',
         ),
       ],
     ),
@@ -29,23 +32,75 @@ class _HomePageState extends State<HomePage> {
         Section(
           title: 'Section 1',
           text: 'This is section 1 of chapter 2.',
-          image: 'assets/images/chapter2_section1.jpg',
+          image: 'assets/images/section 1.jpg',
         ),
         Section(
           title: 'Section 2',
           text: 'This is section 2 of chapter 2.',
-          image: 'assets/images/chapter2_section2.jpg',
+          image: 'assets/images/section 2.jpg',
+        ),
+      ],
+    ),
+    Chapter(
+      title: 'Chapter 3',
+      sections: [
+        Section(
+          title: 'Section 1',
+          text: 'This is section 1 of chapter 3.',
+          image: 'assets/images/section 1.jpg',
+        ),
+        Section(
+          title: 'Section 2',
+          text: 'This is section 2 of chapter 3.',
+          image: 'assets/images/section 2.jpg',
+        ),
+      ],
+    ),Chapter(
+      title: 'Chapter 4',
+      sections: [
+        Section(
+          title: 'Section 1',
+          text: 'This is section 1 of chapter 4.',
+          image: 'assets/images/section 1.jpg',
+        ),
+        Section(
+          title: 'Section 2',
+          text: 'This is section 2 of chapter 4.',
+          image: 'assets/images/section 2.jpg',
         ),
       ],
     ),
   ];
   List<int> _completedSections = [];
 
+  List<BottomNavigationBarItem> createBottomNavItems() {
+    return _chapters.map((e) =>
+      BottomNavigationBarItem(
+        icon: Icon(Icons.book),
+        label: e.title
+    )).toList();
+  }
+
+  void _onNavBarItemSelected(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(_chapters[_currentIndex].title!),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(50),
+          child: LinearProgressIndicator(
+            value: _progressValue, // set progress value
+            backgroundColor: Colors.green, // set background color
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.black), // set progress color
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -60,10 +115,13 @@ class _HomePageState extends State<HomePage> {
                 elevation: 8.0,
                 child: Column(
                   children: <Widget>[
-                    Image.asset(
-                      section.value.image!,
-                      fit: BoxFit.cover,
-                    ),
+                    // Image.asset(
+                    //   section.value.image!,
+                    //   fit: BoxFit.cover,
+                    // ),
+                    SizedBox(
+                      height: 200,
+                        child: PhotoView(imageProvider: AssetImage(section.value.image!))),
                     SizedBox(height: 10.0),
                     Text(
                       section.value.title!,
@@ -105,21 +163,10 @@ class _HomePageState extends State<HomePage> {
           }).toList(),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (int index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: _chapters
-            .map(
-              (Chapter chapter) => BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: chapter.title,
-          ),
-        )
-            .toList(),
+      bottomNavigationBar: HorizontalScrollableBottomNavBar(
+        items: createBottomNavItems(),
+        onItemSelected: _onNavBarItemSelected,
+        initialIndex: _currentIndex,
       ),
     );
   }
