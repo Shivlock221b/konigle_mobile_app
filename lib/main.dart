@@ -3,6 +3,8 @@ import 'package:konigle_mobile_app/models/database.dart';
 import 'package:konigle_mobile_app/pages/home.dart';
 import 'package:konigle_mobile_app/pages/login.dart';
 import 'package:konigle_mobile_app/pages/signup.dart';
+import 'package:konigle_mobile_app/providers/userProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool isLogin = false;
@@ -11,7 +13,12 @@ void main() async {
   await Database.init();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   isLogin = prefs.getBool("isLogin") ?? false;
-  runApp(MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => UserProvider()),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -35,6 +42,11 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       home: isLogin ? HomePage() : LoginPage(),
+      routes: {
+        "/login" : (context) => LoginPage(),
+        "/home" : (context) => HomePage(),
+        "/signup": (context) => SignUpPage()
+      }
     );
   }
 }

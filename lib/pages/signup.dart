@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:konigle_mobile_app/main.dart';
 import 'package:konigle_mobile_app/models/database.dart';
 import 'package:konigle_mobile_app/models/userModel.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../providers/userProvider.dart';
 import 'home.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -21,6 +23,7 @@ class _SignUpPageState extends State<SignUpPage> {
   bool emailValidate = true;
   bool validate = true;
   Database db = Database();
+  User? user;
 
   @override
   void dispose() {
@@ -38,8 +41,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Future<Map> _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      User user = User(id: db.getLength(), name: _usernameController.text, email: _emailController.text, password: _passwordController.text);
-      Map response = await db.setUser(user);
+      user = User(id: db.getLength(), name: _usernameController.text, email: _emailController.text, password: _passwordController.text);
+      Map response = await db.setUser(user!);
       return response;
     } else {
       return {"status": 500, "message": "Error: Something went wrong. Please check the details and try again."};
@@ -122,9 +125,12 @@ class _SignUpPageState extends State<SignUpPage> {
                 onPressed: () async {
                   Map result = await _submitForm();
                   if (result['status'] == 200) {
+                    UserProvider provider = Provider.of<UserProvider>(context, listen: false);
+                    provider.setCurrentUser(user!);
                     SharedPreferences prefs = await SharedPreferences.getInstance();
                     prefs.setBool("isLogin", true);
-                    Navigator.push(context, MaterialPageRoute(builder: (builder) => HomePage()));
+                    Navigator.pop(context);
+                    Navigator.popAndPushNamed(context, "/home");
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -139,15 +145,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Text('Sign Up'),
               ),
               SizedBox(height: 32.0),
-              // ElevatedButton(
-              //   onPressed: () async {
-              //     db.resetDb();
-              //     setState(() {
-              //       validate = false;
-              //     });
-              //   },
-              //   child: Text('Clear prefs'),
-              // ),
             ],
           ),
         ),

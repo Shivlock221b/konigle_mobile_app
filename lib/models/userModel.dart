@@ -10,7 +10,7 @@ class User {
     required this.name,
     required this.email,
     required this.password,
-    this.chapterProgress
+    this.chapterProgress = const [],
   });
 
   factory User.fromJson(Map<String, dynamic> user) {
@@ -39,7 +39,7 @@ class User {
 
 class ChapterProgress {
   int chapterId;
-  List<int>? sectionProgress = [];
+  List<String>? sectionProgress = [];
 
   ChapterProgress({
     required this.chapterId,

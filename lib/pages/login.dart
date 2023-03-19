@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:konigle_mobile_app/models/database.dart';
 import 'package:konigle_mobile_app/pages/signup.dart';
+import 'package:konigle_mobile_app/providers/userProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home.dart';
@@ -105,12 +107,12 @@ class _LoginPageState extends State<LoginPage> {
     });
     dynamic response = db.getUser(_usernameController.text, _passwordController.text);
     if (response != null) {
+      UserProvider provider = Provider.of<UserProvider>(context, listen: false);
+      print(response);
+      provider.setCurrentUser(response);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool("isLogin", true);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
+      Navigator.popAndPushNamed(context, "/home");
     } else {
       showDialog(
         context: context,
