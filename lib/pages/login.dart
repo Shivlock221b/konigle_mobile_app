@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:konigle_mobile_app/models/database.dart';
 import 'package:konigle_mobile_app/pages/signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,6 +15,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
   bool _showPassword = false;
+  Database db = Database();
 
   void _togglePasswordVisibility() {
     setState(() {
@@ -101,16 +103,8 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _isLoading = true;
     });
-
-    // Here you can add your own authentication logic to verify the user's credentials.
-    // For simplicity, we'll just use a shared preferences-based authentication.
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String username = prefs.getString('username')!;
-    String password = prefs.getString('password')!;
-
-    if (_usernameController.text == username &&
-        _passwordController.text == password) {
+    dynamic response = db.getUser(_usernameController.text, _passwordController.text);
+    if (response != null) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
