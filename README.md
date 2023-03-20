@@ -27,6 +27,9 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## Working Screenshots
+![Splash Page](https://github.com/Shivlock221b/konigle_mobile_app/blob/master/screenshots/splash.png)
+
 ## API and dependency documentation
 
 The app doesn't make use of any serverside or third party api since this is just a frontend App. 
