@@ -28,7 +28,9 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 ## Working Screenshots
-<img src="https://github.com/Shivlock221b/konigle_mobile_app/blob/master/screenshots/splash.png" alt="Splash Page" width="250" height="500" />
+<img src="https://github.com/Shivlock221b/konigle_mobile_app/blob/master/screenshots/splash.png" alt="Splash Page" width="250" height="500" />  <img src="https://github.com/Shivlock221b/konigle_mobile_app/blob/master/screenshots/login.png" alt="login Page" width="250" height="500" />  <img src="https://github.com/Shivlock221b/konigle_mobile_app/blob/master/screenshots/signup.png" alt="Signup Page" width="250" height="500" />
+
+<img src="https://github.com/Shivlock221b/konigle_mobile_app/blob/master/screenshots/completed.png" alt="Completed Section Page" width="250" height="500" />  <img src="https://github.com/Shivlock221b/konigle_mobile_app/blob/master/screenshots/markAsComplete.png" alt="Mark as Complete Section Page" width="250" height="500" />
 
 ## API and dependency documentation
 
