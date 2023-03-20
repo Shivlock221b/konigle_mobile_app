@@ -28,7 +28,7 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 ## Working Screenshots
-![Splash Page](https://github.com/Shivlock221b/konigle_mobile_app/blob/master/screenshots/splash.png)
+![Splash Page](https://github.com/Shivlock221b/konigle_mobile_app/blob/master/screenshots/splash.png = 250x)
 
 ## API and dependency documentation
 
